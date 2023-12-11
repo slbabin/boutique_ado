@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-18fct0p$w$iy0!=img46$zqzx+f)#hz+c&4=&^l*abn^$thr1+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-slbabin-boutiqueado-13espt69g1t.ws-eu106.gitpod.io']
+ALLOWED_HOSTS = ['8000-slbabin-boutiqueado-13espt69g1t.ws-eu106.gitpod.io','boutiq-ado-77c7f88574c4.herokuapp.com']
 
 
 # Application definition
@@ -118,13 +119,22 @@ WSGI_APPLICATION = 'boutique_ado.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
+
+# DATABASES = {
+#      'default': dj_database_url.parse('postgres://ljmintrx:jZ7mhTLN39xwNGZvzry07IfJ3brAa7Ua@flora.db.elephantsql.com/ljmintrx')
+#  }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
